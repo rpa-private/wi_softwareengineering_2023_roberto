@@ -1,0 +1,1 @@
+These examples are discussed in the "database review" slides.

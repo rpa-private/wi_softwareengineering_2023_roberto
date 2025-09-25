@@ -1,0 +1,40 @@
+
+.label {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0000C0;
+  -fx-pref-width: 200;
+  -fx-alignment: center-right;
+}
+
+.text-field {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-alignment: center-left;
+}
+
+.button {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #C00000;
+  -fx-min-width: 200;
+}
+
+.text-area {
+  -fx-font-family: monospace;
+  -fx-font-size: 18px;
+}
+
+#TopBox {
+	-fx-alignment: center;
+	-fx-spacing: 5px;
+}
+
+#IP {
+	-fx-pref-width: 200px;
+}
+
+#Port {
+	-fx-pref-width: 100px;
+}

@@ -1,0 +1,1 @@
+This package implements the example from the book "Core Java for the Impatient"
