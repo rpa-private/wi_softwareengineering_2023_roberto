@@ -1,9 +1,6 @@
 package ch.fhnw.richards.Week_02.Lambdas;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CountryExercises {
 	static List<Country> countries = new ArrayList<>(Arrays.asList(new Country("Schweiz", 41285),
@@ -37,12 +34,16 @@ public class CountryExercises {
 	 * lambda. Then print them using a lambda
 	 */
 	public static void example1() {
+		countries.sort(Comparator.comparing(country -> country.getName()));
+		countries.forEach(c -> System.out.println(c));
 	}
 
 	/**
 	 * Repeat exercise 1, but replace both lambdas with method references
 	 */
 	public static void example2() {
+		countries.sort(Comparator.comparing(Country::getName));
+		countries.forEach(System.out::println);
 	}
 
 	/**
@@ -50,6 +51,11 @@ public class CountryExercises {
 	 * can put multiple statements in a lambda.
 	 */
 	public static void example3() {
+		countries.stream()
+		.filter(c -> c.getArea() < 10000)
+		.forEach(System.out::println);
+
+		//countries.removeIf(c -> c.getArea() < 10000);
 	}
 
 	/**
@@ -57,6 +63,8 @@ public class CountryExercises {
 	 * using their natural order, and print using a method reference.
 	 */
 	public static void example4() {
+		countries.sort(Comparator.naturalOrder());
+		countries.forEach(System.out::println);
 	}
 
 	/**
@@ -65,5 +73,12 @@ public class CountryExercises {
 	 * Sort the new countries by the first two letters (by the abbreviations), then print the countries
 	 */
 	public static void example5() {
+		countries.replaceAll(c -> {
+			String name = c.getName();
+			String abbr = name.substring(0, Math.min(2, name.length())).toUpperCase(java.util.Locale.ROOT);
+			return new Country(abbr + ": " + name, c.getArea());
+		});
+		countries.sort(java.util.Comparator.comparing(Country::getName));
+		countries.forEach(c -> System.out.println(c.getName()));
 	}
 }

@@ -9,10 +9,15 @@ import java.util.stream.Collectors;
  * @author Dieter Holz
  */
 public class TransactionList {
+
 	private final List<Transaction> allTransactions = new ArrayList<>();
+	private final List<Trader> allTraders = new ArrayList<>();
 
 	public void addTransaction(Transaction transaction) {
 		allTransactions.add(transaction);
+	}
+	public void addTraders(Trader trader) {
+		allTraders.add(trader);
 	}
 
 	public int size() {
@@ -32,8 +37,13 @@ public class TransactionList {
 	 * @return all traders from given city sorted by name.
 	 */
 	public List<Trader> traders(String city) {
-        return null;
-    }
+		return allTransactions.stream()
+				.map(Transaction::getTrader)
+				.filter(trader -> city.equals(trader.getCity()))
+				.distinct()
+				.sorted(Comparator.comparing(Trader::getName))
+				.collect(Collectors.toList());
+	}
 
 	/**
 	 * @param city the city
@@ -64,4 +74,5 @@ public class TransactionList {
 	public String traderNames() {
         return null;
     }
+
 }

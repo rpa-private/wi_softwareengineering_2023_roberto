@@ -17,8 +17,8 @@ import java.util.Map;
  * easy to understand and use.
  */
 public class MapData {
-    private static final String EdgeFile = "/tmp/Edges.csv";
-    private static final String NodeFile = "/tmp/Nodes.csv";
+    private static final String EdgeFile = "/Users/roberto.panizza/Github/FHNW/tmp/Edges_Rothrist-Olten.csv";
+    private static final String NodeFile = "/Users/roberto.panizza/Github/FHNW/tmp/Nodes_Rothrist-Olten.csv";
     private static final Map<String, ArrayList<Destination>> adjacencyList = new HashMap<>();
     private static final Map<String, GPS> nodes = new HashMap<>();
 
