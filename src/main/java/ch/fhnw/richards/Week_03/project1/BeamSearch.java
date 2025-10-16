@@ -37,7 +37,7 @@ public class BeamSearch {
         bestGForNode.put(start, 0.0);
 
         while (!beam.isEmpty()) {
-            athRec bestGoal = null;
+            PathRec bestGoal = null;
             for (PathRec p : beam) {
                 String last = p.nodes.get(p.nodes.size() - 1);
                 if (last.equals(goal)) {
@@ -92,5 +92,23 @@ public class BeamSearch {
         MapData.GPS gg = nodes.get(goal);
         if (ga == null || gg == null) return 0.0;
         return MapData.haversineMeters(ga.east(), ga.north(), gg.east(), gg.north());
+    }
+    public static double pathDistance(MapData mapData, List<String> path) {
+        if (mapData == null || path == null || path.size() < 2) return 0.0;
+        Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
+        double sum = 0.0;
+        for (int i = 0; i < path.size() - 1; i++) {
+            String from = path.get(i);
+            String to = path.get(i + 1);
+            double dist = adj.getOrDefault(from, new ArrayList<>())
+                    .stream()
+                    .filter(d -> d.node().equals(to))
+                    .map(MapData.Destination::distance)
+                    .findFirst()
+                    .orElse(Double.NaN);
+            if (Double.isNaN(dist)) return Double.NaN;
+            sum += dist;
+        }
+        return sum;
     }
 }
