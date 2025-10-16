@@ -53,10 +53,13 @@ public class BeamSearch {
                     String next = d.node();
                     if (p.nodes.contains(next)) continue;
                     double g2 = p.g + d.distance();
+                    Double bestG = bestGForNode.get(next);
+                    if (bestG != null && g2 >= bestG) continue;
                     double f2 = g2 + heuristic(nodes, next, goal);
                     List<String> newPath = new ArrayList<>(p.nodes);
                     newPath.add(next);
                     candidates.add(new PathRec(newPath, g2, f2));
+                    bestGForNode.put(next, g2);
                 }
             }
             if (candidates.isEmpty()) return null;
@@ -71,13 +74,14 @@ public class BeamSearch {
             if (goalCandidate != null) return goalCandidate.nodes;
 
             candidates.sort(Comparator.comparingDouble(pr -> pr.f));
-            beam = candidates.subList(0, Math.min(beamWidth, candidates.size()));
-
-            for (PathRec pr : beam) {
-                if (pr.nodes.get(pr.nodes.size() - 1).equals(goal)) {
-                    return pr.nodes;
-                }
+            List<PathRec> deduped = new ArrayList<>();
+            Set<String> seenEnds = new HashSet<>();
+            for (PathRec c : candidates) {
+                String end = c.nodes.get(c.nodes.size() - 1);
+                if (seenEnds.add(end)) deduped.add(c);
             }
+
+            beam = deduped.subList(0, Math.min(beamWidth, deduped.size()));
         }
 
         return null;
