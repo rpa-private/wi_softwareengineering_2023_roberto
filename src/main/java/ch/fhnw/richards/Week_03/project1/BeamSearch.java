@@ -33,7 +33,19 @@ public class BeamSearch {
         List<PathRec> beam = new ArrayList<>();
         beam.add(new PathRec(startPath, 0.0, hStart));
 
+        Map<String, Double> bestGForNode = new HashMap<>();
+        bestGForNode.put(start, 0.0);
+
         while (!beam.isEmpty()) {
+            athRec bestGoal = null;
+            for (PathRec p : beam) {
+                String last = p.nodes.get(p.nodes.size() - 1);
+                if (last.equals(goal)) {
+                    if (bestGoal == null || p.g < bestGoal.g) bestGoal = p;
+                }
+            }
+            if (bestGoal != null) return bestGoal.nodes;
+
             List<PathRec> candidates = new ArrayList<>();
             for (PathRec p : beam) {
                 String last = p.nodes.get(p.nodes.size() - 1);
@@ -48,6 +60,15 @@ public class BeamSearch {
                 }
             }
             if (candidates.isEmpty()) return null;
+
+            PathRec goalCandidate = null;
+            for (PathRec c : candidates) {
+                String last = c.nodes.get(c.nodes.size() - 1);
+                if (last.equals(goal)) {
+                    if (goalCandidate == null || c.g < goalCandidate.g) goalCandidate = c;
+                }
+            }
+            if (goalCandidate != null) return goalCandidate.nodes;
 
             candidates.sort(Comparator.comparingDouble(pr -> pr.f));
             beam = candidates.subList(0, Math.min(beamWidth, candidates.size()));
