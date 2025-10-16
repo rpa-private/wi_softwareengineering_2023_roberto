@@ -34,5 +34,12 @@ public class Test {
         System.out.println("A* Strecke: " + aStarPath);
         System.out.printf("A* Länge (Summe der Edges): %.1f m%n",
                 AStar.pathDistance(mapData, aStarPath));
+
+        // Beam Search
+        // Beam Search (k = 5)
+        List<String> beamPath = BeamSearch.search(mapData, start, goal, 5);
+        System.out.println("BeamSearch Strecke: " + beamPath);
+        System.out.printf("BeamSearch Länge (Summe der Edges): %.1f m%n",
+                BeamSearch.pathDistance(mapData, beamPath));
     }
 }
