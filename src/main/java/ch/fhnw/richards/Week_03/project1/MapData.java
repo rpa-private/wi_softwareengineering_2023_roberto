@@ -31,7 +31,7 @@ public class MapData {
     public MapData(String nodeFile, String edgeFile) throws IOException {
         String baseDir = System.getProperty("csv.dir");
         if (baseDir == null || baseDir.isBlank()) {
-            // set local variable with -> export CSV_DIR_PATH=example/path
+            // 1. run task 2. set environment variable CSV_DIR (export CSV_DIR_PATH=example/path)
             baseDir = System.getenv().getOrDefault("CSV_DIR", System.getenv("CSV_DIR"));
         }
         this.nodeFile = (nodeFile == null || nodeFile.isBlank())
