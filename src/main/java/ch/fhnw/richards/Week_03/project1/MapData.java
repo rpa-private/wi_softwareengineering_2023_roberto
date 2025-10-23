@@ -32,7 +32,7 @@ public class MapData {
         String baseDir = System.getProperty("csv.dir");
         if (baseDir == null || baseDir.isBlank()) {
             // set local variable with -> export CSV_DIR_PATH=example/path
-            baseDir = System.getenv().getOrDefault("CSV_DIR", System.getenv("CSV_DIR"));
+            baseDir = System.getenv().getOrDefault("CSV_DIR", System.getenv("CSV_DIR_PATH"));
         }
         this.nodeFile = (nodeFile == null || nodeFile.isBlank())
                 ? Path.of(baseDir, "Nodes.csv").toString()
