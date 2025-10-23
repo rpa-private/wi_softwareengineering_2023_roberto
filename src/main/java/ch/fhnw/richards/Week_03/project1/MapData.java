@@ -29,11 +29,8 @@ public class MapData {
     //Bradley bitte Pfad zu den Nodes und Edges ersetzten
 
     public MapData(String nodeFile, String edgeFile) throws IOException {
-        String baseDir = System.getProperty("csv.dir");
-        if (baseDir == null || baseDir.isBlank()) {
-            // set local variable with -> export CSV_DIR_PATH=example/path
-            baseDir = System.getenv().getOrDefault("CSV_DIR", System.getenv("CSV_DIR_PATH"));
-        }
+        String baseDir = "/Users/loristrifoglio/Documents/Nodes_Edges";
+
         this.nodeFile = (nodeFile == null || nodeFile.isBlank())
                 ? Path.of(baseDir, "Nodes.csv").toString()
                 : nodeFile;
