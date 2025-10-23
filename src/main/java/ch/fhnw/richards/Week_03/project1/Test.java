@@ -23,6 +23,18 @@ public class Test {
         String start = "Rothrist/Schellbergweg/1";
         String goal  = "Aarau/Buchsstrasse/1";
 
+        // Depth-First Suche
+        List<String> depthFirstPath = DepthFirst.search(mapData, start, goal);
+        System.out.println("DepthFirst Strecke: " + depthFirstPath);
+        System.out.printf("DepthFirst Länge (Summe der Edges): %.1f m%n",
+                DepthFirst.pathDistance(mapData, depthFirstPath));
+
+        // Breadth-First Suche
+        List<String> breadthFirstPath = BreadthFirst.search(mapData, start, goal);
+        System.out.println("BreadthFirst Strecke: " + breadthFirstPath);
+        System.out.printf("BreadthFirst Länge (Summe der Edges): %.1f m%n",
+                BreadthFirst.pathDistance(mapData, breadthFirstPath));
+
         // Greedy Best-First Suche
         List<String> bestFirstPath = GreedyBestFirst.search(mapData, start, goal);
         System.out.println("Greedy BestFirst Strecke: " + bestFirstPath);
