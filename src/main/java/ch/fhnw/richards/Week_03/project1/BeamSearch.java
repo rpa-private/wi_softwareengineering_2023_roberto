@@ -95,6 +95,7 @@ public class BeamSearch {
                     bestGForNode.put(next, g2);
                 }
             }
+            // Wenn keine Kandidaten vorhanden sind, Rückgabe null
             if (candidates.isEmpty()) {
                 return new SearchResult(null, visitedCount);
             }
