@@ -29,7 +29,7 @@ public class MapData {
     //Bradley bitte Pfad zu den Nodes und Edges ersetzten
 
     public MapData(String nodeFile, String edgeFile) throws IOException {
-        String baseDir = "/Users/loristrifoglio/Documents/Nodes_Edges";
+        String baseDir = "/Users/roberto.panizza/Github/FHNW/Nodes_Edges";
 
         this.nodeFile = (nodeFile == null || nodeFile.isBlank())
                 ? Path.of(baseDir, "Nodes.csv").toString()
