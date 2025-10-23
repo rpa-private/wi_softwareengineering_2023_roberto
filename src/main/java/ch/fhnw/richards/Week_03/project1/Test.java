@@ -23,11 +23,11 @@ public class Test {
         String start = "Rothrist/Schellbergweg/1";
         String goal  = "Aarau/Buchsstrasse/1";
 
-        // Best-First Suche
-        List<String> bestFirstPath = BestFirst.search(mapData, start, goal);
-        System.out.println("BestFirst Strecke: " + bestFirstPath);
-        System.out.printf("BestFirst Länge (Summe der Edges): %.1f m%n",
-                BestFirst.pathDistance(mapData, bestFirstPath));
+        // Greedy Best-First Suche
+        List<String> bestFirstPath = GreedyBestFirst.search(mapData, start, goal);
+        System.out.println("Greedy BestFirst Strecke: " + bestFirstPath);
+        System.out.printf("Greedy BestFirst Länge (Summe der Edges): %.1f m%n",
+                GreedyBestFirst.pathDistance(mapData, bestFirstPath));
 
         // A* suche
         List<String> aStarPath = AStar.search(mapData, start, goal);
