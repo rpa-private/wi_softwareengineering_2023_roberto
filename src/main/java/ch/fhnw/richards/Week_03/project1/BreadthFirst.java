@@ -3,38 +3,34 @@ package ch.fhnw.richards.Week_03.project1;
 import java.util.*;
 
 /**
- * Greedy Best-First Search using a heuristic (straight-line distance in meters).
- * Uses double values for distances.
+ * Breadth-First Search implementation.
  */
-public class BestFirst {
-
-    /** Simple container for a path plus its heuristic value. */
-    private record Path(List<String> nodes, double h) {}
+public class BreadthFirst {
 
     public static List<String> search(MapData mapData, String start, String goal) {
         Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
         Set<String> visited = new HashSet<>();
-        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparingDouble(p -> p.h));
+        Deque<List<String>> queue = new ArrayDeque<>();
 
-        queue.add(new Path(Collections.singletonList(start), mapData.straightLineDistanceMeters(start, goal)));
+        queue.add(Collections.singletonList(start));
+        visited.add(start);
 
         while (!queue.isEmpty()) {
-            Path current = queue.poll();
-            String last = current.nodes.get(current.nodes.size() - 1);
+            List<String> path = queue.remove();
+            String last = path.get(path.size() - 1);
             if (last.equals(goal)) {
-                return current.nodes;
+                return path;
             }
-            if (!visited.add(last)) continue;
 
-            for (MapData.Destination d : adj.getOrDefault(last, new ArrayList<>())) {
-                if (visited.contains(d.node())) continue;
-                List<String> newPath = new ArrayList<>(current.nodes);
-                newPath.add(d.node());
-                double h = mapData.straightLineDistanceMeters(d.node(), goal);
-                queue.add(new Path(newPath, h));
+            for (MapData.Destination dest : adj.getOrDefault(last, new ArrayList<>())) {
+                if (visited.contains(dest.node())) continue;
+                visited.add(dest.node());
+                List<String> newPath = new ArrayList<>(path);
+                newPath.add(dest.node());
+                queue.add(newPath);
             }
         }
-        return null; // no path found
+        return null; 
     }
 
     /** Utility to sum the edge distances of a path (in meters). */
