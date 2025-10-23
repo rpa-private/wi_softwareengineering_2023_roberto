@@ -11,20 +11,22 @@ public class GreedyBestFirst {
     /** Simple container for a path plus its heuristic value. */
     private record Path(List<String> nodes, double h) {}
 
-    public static List<String> search(MapData mapData, String start, String goal) {
+    public static SearchResult searchWithStats(MapData mapData, String start, String goal) {
         Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
         Set<String> visited = new HashSet<>();
         PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparingDouble(p -> p.h));
+        int visitedCount = 0;
 
         queue.add(new Path(Collections.singletonList(start), mapData.straightLineDistanceMeters(start, goal)));
 
         while (!queue.isEmpty()) {
             Path current = queue.poll();
             String last = current.nodes.get(current.nodes.size() - 1);
-            if (last.equals(goal)) {
-                return current.nodes;
-            }
             if (!visited.add(last)) continue;
+            visitedCount++;
+            if (last.equals(goal)) {
+                return new SearchResult(current.nodes, visitedCount);
+            }
 
             for (MapData.Destination d : adj.getOrDefault(last, new ArrayList<>())) {
                 if (visited.contains(d.node())) continue;
@@ -34,7 +36,11 @@ public class GreedyBestFirst {
                 queue.add(new Path(newPath, h));
             }
         }
-        return null; // no path found
+        return new SearchResult(null, visitedCount); // no path found
+    }
+
+    public static List<String> search(MapData mapData, String start, String goal) {
+        return searchWithStats(mapData, start, goal).path();
     }
 
     /** Utility to sum the edge distances of a path (in meters). */

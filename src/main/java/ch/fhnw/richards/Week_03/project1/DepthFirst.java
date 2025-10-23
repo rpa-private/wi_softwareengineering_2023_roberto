@@ -2,25 +2,24 @@ package ch.fhnw.richards.Week_03.project1;
 
 import java.util.*;
 
-/**
- * Depth-First Search implementation.
- */
 public class DepthFirst {
 
-    public static List<String> search(MapData mapData, String start, String goal) {
+    public static SearchResult searchWithStats(MapData mapData, String start, String goal) {
         Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
         Set<String> visited = new HashSet<>();
         Deque<List<String>> stack = new ArrayDeque<>();
+        int visitedCount = 0;
 
         stack.push(Collections.singletonList(start));
 
         while (!stack.isEmpty()) {
             List<String> path = stack.pop();
             String last = path.get(path.size() - 1);
-            if (last.equals(goal)) {
-                return path;
-            }
             if (!visited.add(last)) continue;
+            visitedCount++;
+            if (last.equals(goal)) {
+                return new SearchResult(path, visitedCount);
+            }
 
             ArrayList<MapData.Destination> neighbors = adj.getOrDefault(last, new ArrayList<>());
             
@@ -33,7 +32,11 @@ public class DepthFirst {
                 stack.push(newPath);
             }
         }
-        return null; 
+        return new SearchResult(null, visitedCount); 
+    }
+
+    public static List<String> search(MapData mapData, String start, String goal) {
+        return searchWithStats(mapData, start, goal).path();
     }
 
     /** Utility to sum the edge distances of a path (in meters). */

@@ -23,12 +23,13 @@ public class AStar {
         }
     }
 
-    public static List<String> search(MapData mapData, String start, String goal) {
+    public static SearchResult searchWithStats(MapData mapData, String start, String goal) {
         Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
 
         PriorityQueue<NodeRec> open = new PriorityQueue<>(Comparator.comparingDouble(NodeRec::f));
         Map<String, NodeRec> best = new HashMap<>(); // best known record per node
         Set<String> closed = new HashSet<>();
+        int visitedCount = 0;
 
         NodeRec startRec = new NodeRec(start, 0.0, mapData.straightLineDistanceMeters(start, goal), null);
         open.add(startRec);
@@ -37,10 +38,11 @@ public class AStar {
         while (!open.isEmpty()) {
             NodeRec current = open.poll();
             if (closed.contains(current.id)) continue;
-            if (current.id.equals(goal)) {
-                return reconstruct(best, current.id);
-            }
             closed.add(current.id);
+            visitedCount++;
+            if (current.id.equals(goal)) {
+                return new SearchResult(reconstruct(best, current.id), visitedCount);
+            }
 
             for (MapData.Destination d : adj.getOrDefault(current.id, new ArrayList<>())) {
                 if (closed.contains(d.node())) continue;
@@ -54,7 +56,11 @@ public class AStar {
                 }
             }
         }
-        return null; // no path
+        return new SearchResult(null, visitedCount); // no path
+    }
+
+    public static List<String> search(MapData mapData, String start, String goal) {
+        return searchWithStats(mapData, start, goal).path();
     }
 
     private static List<String> reconstruct(Map<String, NodeRec> best, String goal) {

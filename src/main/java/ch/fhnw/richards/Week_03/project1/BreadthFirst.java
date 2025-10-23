@@ -7,10 +7,11 @@ import java.util.*;
  */
 public class BreadthFirst {
 
-    public static List<String> search(MapData mapData, String start, String goal) {
+    public static SearchResult searchWithStats(MapData mapData, String start, String goal) {
         Map<String, ArrayList<MapData.Destination>> adj = mapData.getAdjacencyList();
         Set<String> visited = new HashSet<>();
         Deque<List<String>> queue = new ArrayDeque<>();
+        int visitedCount = 0;
 
         queue.add(Collections.singletonList(start));
         visited.add(start);
@@ -18,8 +19,9 @@ public class BreadthFirst {
         while (!queue.isEmpty()) {
             List<String> path = queue.remove();
             String last = path.get(path.size() - 1);
+            visitedCount++;
             if (last.equals(goal)) {
-                return path;
+                return new SearchResult(path, visitedCount);
             }
 
             for (MapData.Destination dest : adj.getOrDefault(last, new ArrayList<>())) {
@@ -30,7 +32,11 @@ public class BreadthFirst {
                 queue.add(newPath);
             }
         }
-        return null; 
+        return new SearchResult(null, visitedCount); 
+    }
+
+    public static List<String> search(MapData mapData, String start, String goal) {
+        return searchWithStats(mapData, start, goal).path();
     }
 
     /** Utility to sum the edge distances of a path (in meters). */
