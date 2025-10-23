@@ -21,7 +21,7 @@ public class Test {
 
         // Start und ende wählen
         String start = "Rothrist/Schellbergweg/1";
-        String goal  = "Buchs/A1R/1";
+        String goal  = "Aarau/Buchsstrasse/1";
 
         // Best-First Suche
         List<String> bestFirstPath = BestFirst.search(mapData, start, goal);

@@ -1,0 +1,13 @@
+.label {
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-text-fill: black;
+  -fx-padding: 5px;
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+}
+
+.button {
+  -fx-pref-height: 60px;
+  -fx-pref-width: 60px;
+}
